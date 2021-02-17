@@ -4,7 +4,6 @@ import UserToken from '@modules/users/infra/typeorm/entities/UserToken'
 
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository'
 
-import ICreateUserTokensDTO from '@modules/users/dtos/ICreateUserTokensDTO'
 
 class UserTokensRepository implements IUserTokensRepository {
   private ormRepository: Repository<UserToken>
@@ -13,7 +12,7 @@ class UserTokensRepository implements IUserTokensRepository {
     this.ormRepository = getRepository(UserToken)
   }
 
-  public async generate({ userId }: ICreateUserTokensDTO): Promise<UserToken> {
+  public async generate(userId: string): Promise<UserToken> {
     const userToken = this.ormRepository.create({
       userId
     });

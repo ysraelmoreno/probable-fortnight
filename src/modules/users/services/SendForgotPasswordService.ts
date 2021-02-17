@@ -31,7 +31,7 @@ class SendForgotPasswordService {
       throw new AppError("User is not registered", 401);
     }
 
-    await this.userTokensRepository.generate({ userId: checkUserExists.id })
+    await this.userTokensRepository.generate(checkUserExists.id)
 
     await this.mailProvider.sendMail(email, 'Pedido de recuperação de senha recebido')
   }
