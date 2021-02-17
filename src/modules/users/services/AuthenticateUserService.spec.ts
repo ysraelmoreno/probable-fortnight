@@ -6,19 +6,24 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 
 import AppError from '@shared/errors/AppError'
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+
+let authenticateUser: AuthenticateUserService;
+
 describe('AuthenticateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+    authenticateUser = new AuthenticateUserService(fakeUsersRepository, fakeHashProvider);
+  })
+
   it('should be able to authenticate', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const authenticateUser = new AuthenticateUserService(fakeUsersRepository, fakeHashProvider)
-    const createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
-
     const name = "John Doe";
     const email = "johndoe@example.com"
     const password = "123456789"
 
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name,
       email ,
       password,
@@ -34,10 +39,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with non existent user', async () => {
-    const fakeHashProvider = new FakeHashProvider();
-    const fakeUsersRepository = new FakeUsersRepository();
-
-    const authenticateUser = new AuthenticateUserService(fakeUsersRepository, fakeHashProvider)
 
     expect(authenticateUser.execute({
       email: 'agathajoe@example.com.br',
@@ -48,17 +49,12 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate user with wrong email/password combination', async () => {
-    const fakeHashProvider = new FakeHashProvider();
-    const fakeUsersRepository = new FakeUsersRepository();
-
-    const authenticateUser = new AuthenticateUserService(fakeUsersRepository, fakeHashProvider)
-    const createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
 
     const name = "John Doe";
     const email = "johndoe@example.com"
     const password = "123456789"
 
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name,
       email ,
       password,

@@ -5,13 +5,19 @@ import AppError from '@shared/errors/AppError'
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider'
 
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeStorageProvider: FakeStorageProvider;
+
+let updateUserAvatar: UpdateUserAvatarService;
+
+
 describe('UpdateUserAvatar', () => {
-  it('should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const updateUserAvatar = new UpdateUserAvatarService(fakeUsersRepository, fakeStorageProvider)
-
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    updateUserAvatar = new UpdateUserAvatarService(fakeUsersRepository, fakeStorageProvider)
+  })
+  it('should be able to update a user avatar', async () => {
     const name = "John Doe";
     const email = "johndoe@example.com"
     const password = "123456789"

@@ -9,4 +9,5 @@ export default interface IUsersRepository {
   findByEmail(data: IFindByEmailDTO): Promise<User | undefined>;
   create(data: ICreateUserDTO): Promise<User>;
   save(user: User): Promise<User>;
+  list(): Promise<User[]>;
 }

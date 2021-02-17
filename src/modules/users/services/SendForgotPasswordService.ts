@@ -2,10 +2,10 @@ import 'reflect-metadata'
 
 import { injectable ,inject } from 'tsyringe'
 
-// import User from '@modules/users/infra/typeorm/entities/User'
 import AppError from '@shared/errors/AppError'
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider'
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
+import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository'
 
 interface Request {
   email: string;
@@ -18,7 +18,9 @@ class SendForgotPasswordService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
     @inject('MailProvider')
-    private mailProvider: IMailProvider
+    private mailProvider: IMailProvider,
+    @inject('UserTokensRepository')
+    private userTokensRepository: IUserTokensRepository
     ) {
   }
 
@@ -28,6 +30,9 @@ class SendForgotPasswordService {
     if (!checkUserExists) {
       throw new AppError("User is not registered", 401);
     }
+
+    await this.userTokensRepository.generate({ userId: checkUserExists.id })
+
     await this.mailProvider.sendMail(email, 'Pedido de recuperação de senha recebido')
   }
 }
