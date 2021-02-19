@@ -23,7 +23,7 @@ class UsersRepository implements IUsersRepository {
 
   public async findById(userId: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne({
-      where: { userId }
+      where: { id: userId }
     });
 
     return findUser;
@@ -39,10 +39,6 @@ class UsersRepository implements IUsersRepository {
 
   public async save(user: User): Promise<User> {
     return this.ormRepository.save(user)
-  }
-
-  public async list(): Promise<User[]> {
-    return this.ormRepository.find();
   }
 
 }

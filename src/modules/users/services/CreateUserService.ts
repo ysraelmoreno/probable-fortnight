@@ -27,7 +27,7 @@ class CreateUserService {
 
   public async execute({ name, email, password }: Request): Promise<User> {
 
-    const findUser = await this.usersRepository.findByEmail({email});
+    const findUser = await this.usersRepository.findByEmail(email);
 
     if(findUser) {
       throw new AppError("User already registered", 401);

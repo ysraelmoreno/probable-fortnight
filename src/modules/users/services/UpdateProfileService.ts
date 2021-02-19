@@ -27,7 +27,7 @@ class UpdateProfileService {
     ) {
   }
 
-  public async execute({ userId, name, email }: Request): Promise<User>{
+  public async execute({ userId, name, email, password, oldPassword }: Request): Promise<User>{
     const user = await this.usersRepository.findById(userId);
 
     if(!user) {
@@ -42,6 +42,21 @@ class UpdateProfileService {
 
     user.name = name;
     user.email = email;
+
+    if (password && !oldPassword) {
+      throw new AppError('You need to inform the old password to set a new password to your profile')
+    }
+
+    if (password && oldPassword) {
+      const compareHash = await this.hashProvider.compareHash(oldPassword, user.password)
+
+      if (!compareHash) {
+        throw new AppError('Old password not match')
+      }
+
+      user.password = await this.hashProvider.generateHash(password)
+    }
+
 
     return this.usersRepository.save(user);
   }

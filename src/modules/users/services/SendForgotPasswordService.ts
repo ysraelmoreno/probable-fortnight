@@ -28,7 +28,7 @@ class SendForgotPasswordService {
   }
 
   public async execute({ email }: Request): Promise<void> {
-    const user = await this.usersRepository.findByEmail({ email })
+    const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
       throw new AppError("User is not registered", 401);

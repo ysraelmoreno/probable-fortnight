@@ -8,14 +8,6 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
 class UsersRepository implements IUsersRepository {
   private users: User[] = [];
 
-  public async list(): Promise<User[]>{
-    const listUsers = this.users.map((user) => {
-      return user
-    });
-
-    return listUsers;
-  }
-
   public async findByEmail(email: string): Promise<User | undefined> {
     const userByEmail = await this.users.find(user => user.email === email);
 

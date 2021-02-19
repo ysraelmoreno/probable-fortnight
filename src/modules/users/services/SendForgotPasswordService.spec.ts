@@ -1,10 +1,8 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeUserTokensRepository from '@modules/users/repositories/fakes/FakeUserTokensRepository';
-import FakeUsersTokensRepository from '@modules/users/repositories/fakes/FakeUserTokensRepository'
 import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider'
 import AppError from '@shared/errors/AppError';
 
-import CreateUserService from './CreateUserService'
 import SendForgotPasswordService from './SendForgotPasswordService'
 
 let fakeUsersRepository: FakeUsersRepository;

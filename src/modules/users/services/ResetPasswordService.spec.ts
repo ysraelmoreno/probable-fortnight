@@ -42,7 +42,7 @@ describe('ResetPasswordService', () => {
       password: '51234'
     })
 
-    const updatedUser = await fakeUsersRepository.findById({ id: user.id })
+    const updatedUser = await fakeUsersRepository.findById(user.id)
 
     expect(generateHash).toHaveBeenCalledWith('51234')
     expect(updatedUser?.password).toBe('51234')
@@ -87,4 +87,6 @@ describe('ResetPasswordService', () => {
       password: '51234'
     })).rejects.toBeInstanceOf(AppError)
   });
+
+
 });
