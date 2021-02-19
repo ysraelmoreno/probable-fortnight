@@ -34,13 +34,13 @@ describe('AuthenticateUser', () => {
       password,
     })
 
-    expect(response).toHaveProperty('token')
-    expect(response.user).toEqual(user)
+    await expect(response).toHaveProperty('token')
+    await expect(response.user).toEqual(user)
   });
 
   it('should not be able to authenticate with non existent user', async () => {
 
-    expect(authenticateUser.execute({
+    await expect(authenticateUser.execute({
       email: 'agathajoe@example.com.br',
       password: '1234agatha',
     })
@@ -60,13 +60,13 @@ describe('AuthenticateUser', () => {
       password,
     })
 
-    expect(authenticateUser.execute({
+    await expect(authenticateUser.execute({
       email: 'jonndoe@example.com.br',
       password,
     })
     ).rejects.toBeInstanceOf(AppError);
 
-    expect(authenticateUser.execute({
+    await expect(authenticateUser.execute({
       email,
       password: '41233',
     })

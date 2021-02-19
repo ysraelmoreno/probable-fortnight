@@ -2,12 +2,11 @@ import { uuid } from 'uuidv4'
 import UserToken from '@modules/users/infra/typeorm/entities/UserToken'
 
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository'
-import ICreateUserTokensDTO from '@modules/users/dtos/ICreateUserTokensDTO'
 
 class FakeUserTokensRepository implements IUserTokensRepository {
   private userTokens: UserToken[] = [];
 
-  public async generate({ userId }: ICreateUserTokensDTO): Promise<UserToken> {
+  public async generate(userId: string): Promise<UserToken> {
     const userToken = new UserToken();
 
     Object.assign(userToken, {

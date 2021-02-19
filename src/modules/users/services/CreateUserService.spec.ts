@@ -29,7 +29,7 @@ describe('CreateUser', () => {
       password,
     })
 
-    expect(user).toHaveProperty('id')
+    await expect(user).toHaveProperty('id')
   });
 
   it('should not be able to create two users with same email', async () => {
@@ -43,7 +43,7 @@ describe('CreateUser', () => {
       password,
     })
 
-    expect(createUser.execute({
+    await expect(createUser.execute({
       name,
       email ,
       password,

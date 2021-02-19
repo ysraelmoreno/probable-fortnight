@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 
 import ResetPasswordService from './ResetPasswordService'
+import { id } from 'date-fns/locale';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokensRepository: FakeUserTokensRepository;
@@ -34,16 +35,14 @@ describe('ResetPasswordService', () => {
 
     const generateHash = jest.spyOn(fakeHashProvider, 'generateHash')
 
-    const userToken = await fakeUserTokensRepository.generate({
-      userId: user.id
-    })
+    const userToken = await fakeUserTokensRepository.generate(user.id)
 
     await resetPassword.execute({
       token: userToken.token,
       password: '51234'
     })
 
-    const updatedUser = await fakeUsersRepository.findById({ id: user.id})
+    const updatedUser = await fakeUsersRepository.findById({ id: user.id })
 
     expect(generateHash).toHaveBeenCalledWith('51234')
     expect(updatedUser?.password).toBe('51234')
@@ -57,7 +56,8 @@ describe('ResetPasswordService', () => {
   })
 
   it('should not be able to reset the password with non-existing user', async () => {
-    const token = fakeUserTokensRepository.generate({ userId: 'non-existing-user' })
+    const fakeId = 'non-existing-user'
+    const token = fakeUserTokensRepository.generate(fakeId)
 
     await expect(resetPassword.execute({
        token: (await token).token,
@@ -73,9 +73,7 @@ describe('ResetPasswordService', () => {
       password: '1234567'
     })
 
-    const userToken = await fakeUserTokensRepository.generate({
-      userId: user.id
-    })
+    const userToken = await fakeUserTokensRepository.generate(user.id)
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();

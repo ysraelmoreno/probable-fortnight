@@ -1,11 +1,18 @@
 import nodemailer, { Transporter } from 'nodemailer'
+import { injectable, inject } from 'tsyringe'
+
 import IMailProvider from '../models/IMailProvider'
 import ISendMailDTO from '../dtos/ISendMailDTO'
+import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider'
 
+@injectable()
 export default  class FakeMailProvider implements IMailProvider {
   private client: Transporter;
 
-  constructor() {
+  constructor(
+    @inject('MailTemplateProvider')
+    private mailTemplateProvider: IMailTemplateProvider,
+  ) {
     nodemailer.createTestAccount().then(account => {
       const transporter = nodemailer.createTransport({
         host: account.smtp.host,
@@ -23,12 +30,18 @@ export default  class FakeMailProvider implements IMailProvider {
     })
   }
 
-  public async sendMail(to: string, body: string): Promise<void> {
+  public async sendMail({ to, subject, from, template }: ISendMailDTO): Promise<void> {
     const message = await this.client.sendMail({
-      from: 'Equipe One <team@onelearning.com>',
-      to,
-      subject: 'Recuperação de senha',
-      text: body,
+      from: {
+        name: from?.name || 'Equipe One',
+        address: from?.email || 'team@onelearning.com'
+      },
+      to: {
+        name: to.name,
+        address: to.email
+      },
+      subject: subject,
+      html: await this.mailTemplateProvider.parse(template),
     }, (err, info) => {
       if (err) {
         console.log('Error occurred. ' + err.message);

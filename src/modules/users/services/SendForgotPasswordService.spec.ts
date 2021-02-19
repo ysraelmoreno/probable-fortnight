@@ -61,6 +61,6 @@ describe('SendForgotPassword', () => {
       email
     })
 
-    expect(generateToken).toHaveBeenCalledWith({ userId: user.id });
+    expect(generateToken).toHaveBeenCalledWith(user.id);
   })
 });

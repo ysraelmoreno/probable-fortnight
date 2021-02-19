@@ -4,21 +4,26 @@ import User from '@modules/users/infra/typeorm/entities/User'
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
-import IFindByIdDTO from '@modules/users/dtos/IFindByIdDTO'
-import IFindByEmailDTO from '@modules/users/dtos/IFindByEmailDTO'
 
 class UsersRepository implements IUsersRepository {
   private users: User[] = [];
 
+  public async list(): Promise<User[]>{
+    const listUsers = this.users.map((user) => {
+      return user
+    });
 
-  public async findByEmail({ email }: IFindByEmailDTO): Promise<User | undefined> {
+    return listUsers;
+  }
+
+  public async findByEmail(email: string): Promise<User | undefined> {
     const userByEmail = await this.users.find(user => user.email === email);
 
     return userByEmail;
   }
 
-  public async findById({ id }: IFindByIdDTO): Promise<User | undefined> {
-    const userById = await this.users.find(user => user.id === id);
+  public async findById(userId: string): Promise<User | undefined> {
+    const userById = await this.users.find(user => user.id === userId);
 
     return userById;
   }

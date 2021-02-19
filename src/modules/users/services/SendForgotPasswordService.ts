@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 
 import { injectable ,inject } from 'tsyringe'
+import path from 'path'
 
 import AppError from '@shared/errors/AppError'
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider'
@@ -17,23 +18,40 @@ class SendForgotPasswordService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
     @inject('MailProvider')
     private mailProvider: IMailProvider,
+
     @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository
     ) {
   }
 
   public async execute({ email }: Request): Promise<void> {
-    const checkUserExists = await this.usersRepository.findByEmail({ email })
+    const user = await this.usersRepository.findByEmail({ email })
 
-    if (!checkUserExists) {
+    if (!user) {
       throw new AppError("User is not registered", 401);
     }
 
-    const { token } = await this.userTokensRepository.generate(checkUserExists.id)
+    const { token } = await this.userTokensRepository.generate(user.id)
 
-    await this.mailProvider.sendMail(email, `Pedido de recuperação recebido ${token}`)
+    const forgotPasswordTemplate = path.resolve(__dirname, '..', 'views', 'forgot_password.hbs')
+
+    await this.mailProvider.sendMail({
+      to: {
+        name: user.name,
+        email: user.email
+      },
+      subject: '[One Learning]Pedido de recuperação de senha',
+      template: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: user.name,
+          link: `http://localhost:3000/resetpassword?token=${token}`
+        }
+      }
+    })
   }
 }
 

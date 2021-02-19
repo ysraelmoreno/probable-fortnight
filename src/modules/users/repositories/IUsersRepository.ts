@@ -1,12 +1,10 @@
 import User from '@modules/users/infra/typeorm/entities/User'
 
 import ICreateUserDTO from '../dtos/ICreateUserDTO'
-import IFindByEmailDTO from '../dtos/IFindByEmailDTO'
-import IFindByIdDTO from '../dtos/IFindByIdDTO'
 
 export default interface IUsersRepository {
-  findById(data: IFindByIdDTO): Promise<User | undefined>;
-  findByEmail(data: IFindByEmailDTO): Promise<User | undefined>;
+  findById(userId: string): Promise<User | undefined>;
+  findByEmail(email: string): Promise<User | undefined>;
   create(data: ICreateUserDTO): Promise<User>;
   save(user: User): Promise<User>;
   list(): Promise<User[]>;

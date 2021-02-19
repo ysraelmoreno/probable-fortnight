@@ -5,8 +5,6 @@ import User from '@modules/users/infra/typeorm/entities/User'
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
-import IFindByIdDTO from '@modules/users/dtos/IFindByIdDTO'
-import IFindByEmailDTO from '@modules/users/dtos/IFindByEmailDTO'
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>
@@ -15,7 +13,7 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User)
   }
 
-  public async findByEmail({ email }: IFindByEmailDTO): Promise<User | undefined> {
+  public async findByEmail(email: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne({
       where: { email }
     });
@@ -23,9 +21,9 @@ class UsersRepository implements IUsersRepository {
     return findUser;
   }
 
-  public async findById({ id }: IFindByIdDTO): Promise<User | undefined> {
+  public async findById(userId: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne({
-      where: { id }
+      where: { userId }
     });
 
     return findUser;
