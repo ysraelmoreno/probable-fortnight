@@ -3,6 +3,6 @@ export default interface ICreateUserDTO {
   description: string;
   teacherId: string;
   category: string;
-  tags?: string[];
-  principalImage?: string;
+  tags?: string;
+  principalImage?: string | null;
 }

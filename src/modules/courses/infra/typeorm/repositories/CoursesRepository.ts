@@ -31,7 +31,7 @@ class CoursesRepository implements ICourseRepository {
     return course;
   }
 
-  public async list({ id }: IListAllCoursesDTO): Promise<Course[]> {
+  public async list(id: string): Promise<Course[]> {
     const courses = await this.ormRepository.find({ teacherId: id });
     return courses
 
@@ -41,8 +41,9 @@ class CoursesRepository implements ICourseRepository {
     return this.ormRepository.save(course)
   }
 
-  public async create({ name, description, teacherId, category, tags }: ICreateCourseDTO): Promise<Course> {
-    const course = this.ormRepository.create({ name, description, teacherId, category, tags });
+  public async create({ name, description, teacherId, category, tags, principalImage }: ICreateCourseDTO): Promise<Course> {
+
+    const course = this.ormRepository.create({ name, description, teacherId, category, tags, principalImage });
 
     await this.ormRepository.save(course)
 

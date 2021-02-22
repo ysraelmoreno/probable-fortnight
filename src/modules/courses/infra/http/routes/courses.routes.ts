@@ -15,5 +15,6 @@ const upload = multer(uploadConfig);
 coursesRoutes.get('/', courseController.index)
 
 coursesRoutes.post('/', upload.single('principalImage'), courseController.create)
+coursesRoutes.put('/', upload.single('newPrincipalImage'), courseController.update)
 
 export default coursesRoutes;
