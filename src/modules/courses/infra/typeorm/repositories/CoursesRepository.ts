@@ -14,6 +14,12 @@ class CoursesRepository implements ICourseRepository {
     this.ormRepository = getRepository(Course)
   }
 
+  public async findById(id: string): Promise<Course | undefined> {
+    const course = await this.ormRepository.findOne(id);
+
+    return course;
+  }
+
   public async findByIdAndName({ name, teacherId }: IFindCourseByNameAndTeacherDTO): Promise<Course | undefined> {
     const course = await this.ormRepository.findOne({
       where: [
@@ -31,8 +37,12 @@ class CoursesRepository implements ICourseRepository {
 
   }
 
-  public async create({ name, description, teacherId }: ICreateCourseDTO): Promise<Course> {
-    const course = this.ormRepository.create({ name, description, teacherId });
+  public async save(course: Course): Promise<Course> {
+    return this.ormRepository.save(course)
+  }
+
+  public async create({ name, description, teacherId, category, tags }: ICreateCourseDTO): Promise<Course> {
+    const course = this.ormRepository.create({ name, description, teacherId, category, tags });
 
     await this.ormRepository.save(course)
 

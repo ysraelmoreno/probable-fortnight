@@ -14,11 +14,14 @@ export default class CourseController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, description, teacherId } = request.body;
+    const { name, description, category, tags } = request.body;
+
+    const teacherId = request.user.id
+    const principalImage = request.file.filename;
 
     const createCourse = container.resolve(CreateCourseService);
 
-    const course = await createCourse.execute({ name, description, teacherId })
+    const course = await createCourse.execute({ name, description, teacherId, category, tags, principalImage })
 
     return response.json(course);
 

@@ -4,28 +4,26 @@ import Course from '@modules/courses/infra/typeorm/entities/Course'
 
 import ICourseRepository from '@modules/courses/repositories/ICoursesRepository'
 import AppError from '@shared/errors/AppError'
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider'
 
-interface Request {
-  name: string;
-  description: string;
-  teacherId: string;
-}
+import ICreateCourseDTO from '@modules/courses/dtos/ICreateCourseDTO'
+
 @injectable()
 class CreateCourseService {
 
   constructor(
     @inject('CoursesRepository')
-    private coursesRepository: ICourseRepository) {
+    private coursesRepository: ICourseRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider) {
   }
 
-  public async execute({ name, description, teacherId }: Request): Promise<Course> {
-    const findCourse = await this.coursesRepository.findByIdAndName({ name, teacherId});
-
-    if (findCourse) {
-      throw new AppError("You already has this course registered", 401);
+  public async execute({ name, description, teacherId, category, tags, principalImage }: ICreateCourseDTO): Promise<Course> {
+    if (principalImage){
+      const fileName = await this.storageProvider.saveFile(principalImage)
     }
-
-    const course = await this.coursesRepository.create({ name, description, teacherId})
+    const course = await this.coursesRepository.create({ name, description, teacherId, category, tags, principalImage })
 
     return course;
   }

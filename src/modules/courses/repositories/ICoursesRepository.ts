@@ -6,6 +6,10 @@ import IListAllCoursesDTO from '@modules/courses/dtos/IListAllCoursesDTO'
 
 export default interface IUsersRepository {
   create(data: ICreateCourseDTO): Promise<Course>;
-  list(data: IListAllCoursesDTO): Promise<Course[]>
-  findByIdAndName(data: IFindCourseByNameAndTeacherDTO): Promise<Course | undefined>
+  list(data: IListAllCoursesDTO): Promise<Course[]>;
+  findByIdAndName(data: IFindCourseByNameAndTeacherDTO): Promise<Course | undefined>;
+  findById(id: string): Promise<Course | undefined>;
+  save(course: Course): Promise<Course>;
+
+  // findByTags(data: string[]): Promise<Course[] | undefined>;
 }

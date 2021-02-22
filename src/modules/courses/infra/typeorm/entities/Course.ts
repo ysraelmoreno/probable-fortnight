@@ -14,7 +14,16 @@ class Course {
   description: string;
 
   @Column()
+  tags: string;
+
+  @Column()
+  category: string;
+
+  @Column()
   teacherId: string;
+
+  @Column()
+  principalImage: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'teacherId' })
