@@ -24,14 +24,12 @@ export default  class FakeMailProvider implements IMailProvider {
         }
       });
 
-      console.log(account)
-
       this.client = transporter;
     })
   }
 
   public async sendMail({ to, subject, from, template }: ISendMailDTO): Promise<void> {
-    const message = await this.client.sendMail({
+    const message = this.client.sendMail({
       from: {
         name: from?.name || 'Equipe One',
         address: from?.email || 'team@onelearning.com'

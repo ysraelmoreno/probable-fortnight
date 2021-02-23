@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 
 import Course from '../entities/Course'
 
@@ -39,6 +39,23 @@ class CoursesRepository implements ICourseRepository {
 
   public async save(course: Course): Promise<Course> {
     return this.ormRepository.save(course)
+  }
+
+  public async listAllCourses(exceptUserId?: string): Promise<Course[]> {
+    let courses: Course[];
+
+    if(exceptUserId) {
+      courses = await this.ormRepository.find({
+        where: {
+          id: Not(exceptUserId)
+        }
+      })
+    } else {
+      courses = await this.ormRepository.find()
+    }
+
+
+    return courses
   }
 
   public async create({ name, description, teacherId, category, tags, principalImage }: ICreateCourseDTO): Promise<Course> {

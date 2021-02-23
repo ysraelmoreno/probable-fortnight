@@ -4,5 +4,5 @@ export default interface ICreateUserDTO {
   teacherId: string;
   category: string;
   tags?: string;
-  principalImage?: string | null;
+  principalImage?: string;
 }

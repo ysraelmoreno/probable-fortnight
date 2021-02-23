@@ -13,6 +13,7 @@ const courseController = new CourseController();
 const upload = multer(uploadConfig);
 
 coursesRoutes.get('/', courseController.index)
+coursesRoutes.get('/mycourses', courseController.show)
 
 coursesRoutes.post('/', upload.single('principalImage'), courseController.create)
 coursesRoutes.put('/', upload.single('newPrincipalImage'), courseController.update)

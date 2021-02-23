@@ -6,6 +6,6 @@ export default class FakeMailProvider implements IMailProvider {
   private messages: ISendMailDTO[] = [];
 
   public async sendMail(message: ISendMailDTO): Promise<void> {
-    await this.messages.push(message)
+    this.messages.push(message)
   }
 }

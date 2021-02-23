@@ -4,18 +4,16 @@ import ICoursesRepository from '@modules/courses/repositories/ICoursesRepository
 import Course from '../infra/typeorm/entities/Course'
 
 @injectable()
-class ListAllCoursesServices {
+class ListOwnCoursesService {
 
   constructor(
     @inject('CoursesRepository')
     private coursesRepository: ICoursesRepository) {
   }
 
-  public async execute(id?: string): Promise<Course[]> {
-    let courses = await this.coursesRepository.listAllCourses(id);
-
-    return courses
+  public async execute(id: string): Promise<Course[]> {
+    return await this.coursesRepository.list(id);
   }
 }
 
-export default ListAllCoursesServices;
+export default ListOwnCoursesService;

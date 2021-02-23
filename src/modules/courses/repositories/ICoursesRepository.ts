@@ -6,7 +6,8 @@ import IFindCourseByNameAndTeacherDTO from '@modules/courses/dtos/IFindCourseByN
 
 export default interface ICoursesRepository {
   create(data: ICreateCourseDTO): Promise<Course>;
-  list(id: string): Promise<Course[]>;
+  list(id?: string): Promise<Course[]>;
+  listAllCourses(exceptUserId?:string): Promise<Course[]>;
   findByIdAndName(data: IFindCourseByNameAndTeacherDTO): Promise<Course | undefined>;
   findById(id: string): Promise<Course | undefined>;
   save(course: Course): Promise<Course>;
