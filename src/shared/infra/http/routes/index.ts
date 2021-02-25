@@ -14,5 +14,4 @@ routes.use('/courses', coursesRouter)
 routes.use('/sessions', sessionsRouter)
 routes.use('/password', passwordRouter)
 routes.use('/profile', profileRouter)
-
 export default routes;

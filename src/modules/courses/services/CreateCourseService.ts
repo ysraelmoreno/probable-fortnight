@@ -16,14 +16,19 @@ class CreateCourseService {
     private coursesRepository: ICourseRepository,
 
     @inject('StorageProvider')
-    private storageProvider: IStorageProvider) {
+    private storageProvider: IStorageProvider
+    ) {
   }
 
   public async execute({ name, description, teacherId, category, tags, principalImage }: ICreateCourseDTO): Promise<Course> {
+    const course = await this.coursesRepository.create({ name, description, teacherId, category, tags, principalImage })
+
     if (principalImage){
       const fileName = await this.storageProvider.saveFile(principalImage)
+      course.principalImage = fileName;
     }
-    const course = await this.coursesRepository.create({ name, description, teacherId, category, tags, principalImage })
+
+    await this.coursesRepository.save(course)
 
     return course;
   }

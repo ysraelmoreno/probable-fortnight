@@ -10,7 +10,7 @@ class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>
 
   constructor() {
-    this.ormRepository = getRepository(User)
+    this.ormRepository = getRepository(User, 'default')
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {

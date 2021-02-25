@@ -47,7 +47,7 @@ export default class CourseController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, description, category, tags } = request.body;
 
-    let principalImage = null;
+    let principalImage = undefined;
     const teacherId = request.user.id;
 
     if(request.file) {

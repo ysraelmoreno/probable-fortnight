@@ -17,7 +17,7 @@ interface Request {
   newPrincipalImage?: string | null;
 }
 @injectable()
-class UpdateProfileService {
+class UpdateCourseService {
   constructor(
     @inject('CoursesRepository')
     private coursesRepository: ICoursesRepository,
@@ -55,4 +55,4 @@ class UpdateProfileService {
   }
 }
 
-export default UpdateProfileService
+export default UpdateCourseService

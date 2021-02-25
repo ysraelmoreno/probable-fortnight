@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import User from '@modules/users/infra/typeorm/entities/User'
+import CoursesCategory from './CoursesCategory';
 
 
 @Entity('courses')
@@ -17,13 +18,17 @@ class Course {
   tags: string;
 
   @Column()
+  principalImage: string;
+
+  @Column()
+  categoryId: string;
+
+  @OneToMany(() => CoursesCategory, coursescategory => coursescategory.id)
+  @JoinColumn({ name: 'categoryId' })
   category: string;
 
   @Column()
   teacherId: string;
-
-  @Column()
-  principalImage: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'teacherId' })

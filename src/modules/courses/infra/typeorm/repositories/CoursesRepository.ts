@@ -5,7 +5,6 @@ import Course from '../entities/Course'
 import ICreateCourseDTO from '@modules/courses/dtos/ICreateCourseDTO'
 import IFindCourseByNameAndTeacherDTO from '@modules/courses/dtos/IFindCourseByNameAndTeacherDTO'
 import ICourseRepository from '@modules/courses/repositories/ICoursesRepository'
-import IListAllCoursesDTO from '@modules/courses/dtos/IListAllCoursesDTO'
 
 class CoursesRepository implements ICourseRepository {
   private ormRepository: Repository<Course>
