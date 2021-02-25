@@ -18,6 +18,9 @@ import CourseContentRepository from '@modules/courses/infra/typeorm/repositories
 import ICoursesCategoryRepository from '@modules/courses/repositories/ICoursesCategoryRepository'
 import CoursesCategoryRepository from '@modules/courses/infra/typeorm/repositories/CoursesCategoryRepository'
 
+import IProductsRepository from '@modules/products/repositories/IProductsRepository'
+import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository'
+
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository'
 import NotificationsRepository from '@modules/notifications/infra/repositories/NotificationsRepository'
 
@@ -26,4 +29,5 @@ container.registerSingleton<IUsersRepository>('UsersRepository', UsersRepository
 container.registerSingleton<IUserTokensRepository>('UserTokensRepository', UserTokensRepository);
 container.registerSingleton<INotificationsRepository>('NotificationsRepository', NotificationsRepository);
 container.registerSingleton<ICourseContentRepository>('CourseContentRepository', CourseContentRepository);
+container.registerSingleton<IProductsRepository>('ProductsRepository', ProductsRepository);
 container.registerSingleton<ICoursesCategoryRepository>('CoursesCategoryRepository', CoursesCategoryRepository);

@@ -6,7 +6,7 @@ import IFindCourseByNameAndTeacherDTO from '@modules/courses/dtos/IFindCourseByN
 import ICourseRepository from '@modules/courses/repositories/ICoursesRepository'
 import IListAllCoursesDTO from '@modules/courses/dtos/IListAllCoursesDTO'
 
-class CoursesRepository implements ICourseRepository {
+class FakeCoursesRepository implements ICourseRepository {
   private courses: Course[] = [];
 
   public async findByIdAndName({ name, teacherId }: IFindCourseByNameAndTeacherDTO): Promise<Course | undefined> {
@@ -17,16 +17,16 @@ class CoursesRepository implements ICourseRepository {
     return findCourse
   }
 
-  public async list({ id }: IListAllCoursesDTO): Promise<Course[]> {
+  public async list(id: string): Promise<Course[]> {
     const courses = await this.courses.filter(course => course.teacherId === id)
 
     return courses
   }
 
-  public async create({ name, description, teacherId }: ICreateCourseDTO): Promise<Course> {
+  public async create({ name, description, teacherId, category, tags, principalImage }: ICreateCourseDTO): Promise<Course> {
     const course = new Course();
 
-    Object.assign(course, { id: uuid(), name, description, teacherId })
+    Object.assign(course, { id: uuid(), name, description, teacherId, category, tags, principalImage })
 
     this.courses.push(course);
 
@@ -34,4 +34,4 @@ class CoursesRepository implements ICourseRepository {
   }
 }
 
-export default CoursesRepository;
+export default FakeCoursesRepository;
