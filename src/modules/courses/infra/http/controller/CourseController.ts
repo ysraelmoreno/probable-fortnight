@@ -1,5 +1,6 @@
 import { Request, Response} from 'express'
 import { container } from 'tsyringe'
+import { classToClass } from 'class-transformer'
 
 import CreateCourseService from '@modules/courses/services/CreateCourseService'
 import ListAllCoursesService from '@modules/courses/services/ListAllCoursesService'
@@ -11,7 +12,7 @@ export default class CourseController {
     const listCourses = container.resolve(ListAllCoursesService)
     const courses = await listCourses.execute();
 
-    return response.json(courses)
+    return response.json(classToClass(courses))
 
   }
 
@@ -19,14 +20,15 @@ export default class CourseController {
     const listCourses = container.resolve(ListOwnCoursesService)
     const courses = await listCourses.execute(request.user.id);
 
-    return response.json(courses)
+    return response.json(classToClass(courses))
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const updateCourse = container.resolve(UpdateCourseService)
-    const { courseId, name, description, category, tags } = request.body;
+    const updateCourse = container.resolve(UpdateCourseService);
+    const courseId = request.params.id;
+    const { name, description, category, tags } = request.body;
 
-    let newPrincipalImage
+    let newPrincipalImage;
 
     if(request.file) {
       newPrincipalImage = request.file.filename;
@@ -41,7 +43,7 @@ export default class CourseController {
       newPrincipalImage
     })
 
-    return response.json(course)
+    return response.json(classToClass(course))
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -58,7 +60,7 @@ export default class CourseController {
 
     const course = await createCourse.execute({ name, description, teacherId, category, tags, principalImage })
 
-    return response.json(course);
+    return response.json(classToClass(course));
 
   }
 

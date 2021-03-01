@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { celebrate, Segments, Joi } from 'celebrate'
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated'
 
@@ -10,6 +11,10 @@ categoryRoutes.use(ensureAuthenticated)
 
 const categoryController = new CategoryController();
 
-categoryRoutes.post('/category', categoryController.create)
+categoryRoutes.post('/category', celebrate({
+  [Segments.BODY]: {
+    name: Joi.string().required()
+  }
+}), categoryController.create)
 
 export default categoryRoutes;

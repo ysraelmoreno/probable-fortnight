@@ -6,6 +6,7 @@ import ICourseRepository from '@modules/courses/repositories/ICoursesRepository'
 import ICoursesCategoryRepository from '@modules/courses/repositories/ICoursesCategoryRepository'
 import AppError from '@shared/errors/AppError'
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider'
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider'
 
 import ICreateCourseDTO from '@modules/courses/dtos/ICreateCourseDTO'
 
@@ -20,7 +21,10 @@ class CreateCourseService {
     private coursesCategoryRepository: ICoursesCategoryRepository,
 
     @inject('StorageProvider')
-    private storageProvider: IStorageProvider
+    private storageProvider: IStorageProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider
     ) {
   }
 
@@ -39,6 +43,8 @@ class CreateCourseService {
     }
 
     await this.coursesRepository.save(course)
+
+    await this.cacheProvider.invalidatePrefix('courses-list')
 
     return course;
   }

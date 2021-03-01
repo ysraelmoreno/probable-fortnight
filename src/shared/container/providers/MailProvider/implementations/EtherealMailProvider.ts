@@ -12,6 +12,7 @@ export default  class FakeMailProvider implements IMailProvider {
   constructor(
     @inject('MailTemplateProvider')
     private mailTemplateProvider: IMailTemplateProvider,
+
   ) {
     nodemailer.createTestAccount().then(account => {
       const transporter = nodemailer.createTransport({

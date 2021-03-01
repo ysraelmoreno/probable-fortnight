@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import User from '@modules/users/infra/typeorm/entities/User'
 import CoursesCategory from './CoursesCategory';
 
+import { Expose } from 'class-transformer'
 
 @Entity('courses')
 class Course {
@@ -39,6 +40,11 @@ class Course {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  @Expose({ name: 'principalImageUrl'})
+  getPrincipalImageUrl(): string | null {
+    return this.principalImage ? `${process.env.APP_API_URL}/files/${this.principalImage}` : null;
+  }
 
 }
 

@@ -5,5 +5,5 @@ import ICreateContentCourseDTO from '@modules/courses/dtos/ICreateContentCourseD
 
 export default interface ICourseContentRepository {
   create(data: ICreateContentCourseDTO): Promise<CourseContent>;
-
+  listContent(courseId: string): Promise<CourseContent | undefined>
 }

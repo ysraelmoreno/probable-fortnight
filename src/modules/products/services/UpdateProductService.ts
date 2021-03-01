@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { injectable ,inject } from 'tsyringe'
+import { injectable, inject } from 'tsyringe'
 
 import IProductsRepository from '@modules/products/repositories/IProductsRepository'
 import IUpdateProductDTO from '../dtos/IUpdateProductDTO'
