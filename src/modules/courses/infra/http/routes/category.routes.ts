@@ -11,7 +11,7 @@ categoryRoutes.use(ensureAuthenticated)
 
 const categoryController = new CategoryController();
 
-categoryRoutes.post('/category', celebrate({
+categoryRoutes.post('/', celebrate({
   [Segments.BODY]: {
     name: Joi.string().required()
   }

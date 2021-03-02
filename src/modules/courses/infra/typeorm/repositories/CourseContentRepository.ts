@@ -13,12 +13,12 @@ class CourseContentRepository implements ICourseContentRepository {
     this.ormRepository = getRepository(CourseContent)
   }
 
-  public async listContent(courseId: string): Promise<CourseContent | undefined> {
+  public async listContent(courseId: string): Promise<CourseContent[] | undefined> {
     const courseContent = await this.ormRepository.find({
-      where: { courseId: courseId }
+      where: { courseId }
     });
 
-    return courseContent
+    return courseContent;
   }
 
   public async create({ courseId, description, title, video }: ICreateContentCourseDTO):Promise<CourseContent> {

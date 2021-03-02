@@ -7,6 +7,7 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import CourseController from '@modules/courses/infra/http/controller/CourseController'
 import CourseContentController from '@modules/courses/infra/http/controller/CourseContentController'
 import categoryRoutes from './category.routes'
+import affiliatesRoutes from './affiliates.routes'
 
 const coursesRoutes = Router();
 
@@ -15,7 +16,9 @@ coursesRoutes.use(ensureAuthenticated)
 const courseContentController = new CourseContentController();
 const courseController = new CourseController();
 const upload = multer(uploadConfig);
-coursesRoutes.use(categoryRoutes)
+
+coursesRoutes.use('/affiliates', affiliatesRoutes)
+coursesRoutes.use('/category', categoryRoutes)
 
 coursesRoutes.get('/', courseController.index)
 coursesRoutes.get('/mycourses', courseController.show)

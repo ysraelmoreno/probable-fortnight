@@ -7,6 +7,7 @@ import AppError from '@shared/errors/AppError'
 import ICourseContentRepository from '../repositories/ICourseContentRepository'
 import ICoursesRepository from '../repositories/ICoursesRepository'
 import ICreateContentCourseDTO from '../dtos/ICreateContentCourseDTO'
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider'
 
 @injectable()
 class CreateCourseContentService {
@@ -16,7 +17,10 @@ class CreateCourseContentService {
     private courseContentRepository: ICourseContentRepository,
 
     @inject('CoursesRepository')
-    private coursesRepository: ICoursesRepository
+    private coursesRepository: ICoursesRepository,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider
     ) {
   }
 
@@ -28,6 +32,8 @@ class CreateCourseContentService {
     }
 
     const courseContent = await this.courseContentRepository.create({ courseId, description, title, video})
+
+    await this.cacheProvider.invalidate(`course-content:${courseId}`)
 
     return courseContent
   }

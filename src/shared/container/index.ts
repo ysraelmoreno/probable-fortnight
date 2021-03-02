@@ -24,7 +24,11 @@ import ProductsRepository from '@modules/products/infra/typeorm/repositories/Pro
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository'
 import NotificationsRepository from '@modules/notifications/infra/repositories/NotificationsRepository'
 
+import IAffiliateRepository from '@modules/courses/repositories/IAffiliateRepository'
+import AffiliatesRepository from '@modules/courses/infra/typeorm/repositories/AffiliatesRepository'
+
 container.registerSingleton<ICoursesRepository>('CoursesRepository', CoursesRepository);
+container.registerSingleton<IAffiliateRepository>('AffiliatesRepository', AffiliatesRepository);
 container.registerSingleton<IUsersRepository>('UsersRepository', UsersRepository);
 container.registerSingleton<IUserTokensRepository>('UserTokensRepository', UserTokensRepository);
 container.registerSingleton<INotificationsRepository>('NotificationsRepository', NotificationsRepository);
